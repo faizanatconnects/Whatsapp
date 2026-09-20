@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+:root{--accent:#25D366;--glass-blur:44px;--ink:#0b141a;}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:#eef1f6;}
+body.share-view #editor-panel{display:none!important;}
+body.share-view #phone-column{margin:0 auto;}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,sans-serif;color:#0b141a;-webkit-font-smoothing:antialiased;}
+a{color:#0a84ff;text-decoration:none;}
+a:hover{color:#0060df;text-decoration:underline;}
+input[type=range]{accent-color:var(--accent);}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:rgba(60,70,85,.18);border-radius:8px;}
+@keyframes popIn{from{opacity:0;transform:scale(.82) translateY(6px);}to{opacity:1;transform:none;}}
+@keyframes slideUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+@keyframes blurIn{from{opacity:0;filter:blur(10px);transform:scale(1.04);}to{opacity:1;filter:blur(0);transform:none;}}
+@keyframes springL{0%{opacity:0;transform:translateX(-46px);}60%{opacity:1;transform:translateX(10px);}80%{transform:translateX(-4px);}100%{transform:none;}}
+@keyframes springR{0%{opacity:0;transform:translateX(46px);}60%{opacity:1;transform:translateX(-10px);}80%{transform:translateX(4px);}100%{transform:none;}}
+@keyframes scaleTapL{from{opacity:0;transform:scale(.15);transform-origin:0% 100%;}to{opacity:1;transform:scale(1);transform-origin:0% 100%;}}
+@keyframes scaleTapR{from{opacity:0;transform:scale(.15);transform-origin:100% 100%;}to{opacity:1;transform:scale(1);transform-origin:100% 100%;}}
+@keyframes wobbleIn{0%{opacity:0;transform:scale(.85) rotate(-6deg);}40%{opacity:1;transform:scale(1.04) rotate(4deg);}65%{transform:scale(.99) rotate(-2.5deg);}85%{transform:rotate(1deg);}100%{transform:none;}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes blink{0%,60%,100%{opacity:.25;transform:scale(.85);}30%{opacity:1;transform:scale(1);}}
+@keyframes floatBlob{0%{transform:translate3d(0,0,0) scale(1);}50%{transform:translate3d(30px,-40px,0) scale(1.08);}100%{transform:translate3d(0,0,0) scale(1);}}
+@keyframes caretBlink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+</style>
+</helmet>
+
+<div style="position:relative;min-height:100vh;overflow:hidden;background:linear-gradient(160deg,#f7f9fc 0%,#eef1f7 45%,#e9edf6 100%);">
+
+  <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+    <div style="position:absolute;top:-140px;left:-80px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(52,199,89,.42),rgba(52,199,89,0) 70%);filter:blur(60px);animation:floatBlob 18s ease-in-out infinite;"></div>
+    <div style="position:absolute;top:120px;right:-120px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(10,132,255,.34),rgba(10,132,255,0) 70%);filter:blur(70px);animation:floatBlob 23s ease-in-out infinite reverse;"></div>
+    <div style="position:absolute;bottom:-200px;left:38%;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(255,159,10,.26),rgba(255,45,146,.18) 45%,rgba(255,255,255,0) 72%);filter:blur(80px);animation:floatBlob 27s ease-in-out infinite;"></div>
+  </div>
+
+  <div style="position:relative;display:flex;gap:22px;align-items:flex-start;justify-content:center;flex-wrap:wrap;padding:26px 22px 44px;">
+
+    <div id="editor-panel" style="width:344px;min-width:300px;flex:0 1 344px;display:flex;flex-direction:column;gap:14px;">
+
+      <div style="display:flex;align-items:center;gap:11px;padding:0 4px 2px;">
+        <div style="width:34px;height:34px;border-radius:11px;background:linear-gradient(145deg,#34c759,#17a34a);box-shadow:0 6px 16px rgba(37,211,102,.38),inset 0 1px 0 rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.5 2 2 6.1 2 11.2c0 2.8 1.4 5.3 3.6 7L4.7 22l3.9-2c1.05.3 2.18.46 3.4.46 5.5 0 10-4.1 10-9.26C22 6.1 17.5 2 12 2z"/></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1px;">
+          <div style="font-size:15.5px;font-weight:650;letter-spacing:-.24px;">Chat Replay Studio</div>
+          <div style="font-size:11.5px;color:#7c8798;letter-spacing:.01em;">Replay · animate · export 1080p</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,.58);backdrop-filter:blur(var(--glass-blur)) saturate(190%);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(190%);border:1px solid rgba(255,255,255,.85);border-radius:24px;box-shadow:0 18px 42px rgba(28,42,70,.13),inset 0 1px 0 rgba(255,255,255,.95);padding:16px;display:flex;flex-direction:column;gap:16px;">
+
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a93a3;">Chat file</div>
+          <label for="chatFile" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:15px;border:1px dashed rgba(60,80,110,.28);background:rgba(255,255,255,.6);font-size:13px;font-weight:550;cursor:pointer;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3c4a5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"></path><path d="m7 9 5-5 5 5"></path><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"></path></svg>
+            Upload WhatsApp .txt export
+          </label>
+          <input id="chatFile" type="file" accept=".txt" onChange="{{ onChatFile }}" style="display:none">
+          <div style="font-size:11px;color:#8a93a3;word-break:break-all;">{{ fileLabel }}</div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a93a3;">History range</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+            <label style="font-size:10.5px;color:#7c8798;">Start
+              <input type="datetime-local" value="{{ rangeStart }}" min="{{ rangeMin }}" max="{{ rangeMax }}" onChange="{{ onRangeStart }}" style="display:block;width:100%;margin-top:4px;padding:8px 7px;border-radius:10px;border:1px solid rgba(60,80,110,.16);background:rgba(255,255,255,.72);font:11px inherit;color:#0b141a;">
+            </label>
+            <label style="font-size:10.5px;color:#7c8798;">End
+              <input type="datetime-local" value="{{ rangeEnd }}" min="{{ rangeMin }}" max="{{ rangeMax }}" onChange="{{ onRangeEnd }}" style="display:block;width:100%;margin-top:4px;padding:8px 7px;border-radius:10px;border:1px solid rgba(60,80,110,.16);background:rgba(255,255,255,.72);font:11px inherit;color:#0b141a;">
+            </label>
+          </div>
+          <div style="font-size:11px;color:#8a93a3;">{{ rangeLabel }}</div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a93a3;">You are</div>
+          <select onChange="{{ onMeChange }}" value="{{ meName }}" style="width:100%;padding:10px 12px;border-radius:13px;border:1px solid rgba(60,80,110,.16);background:rgba(255,255,255,.72);font-size:13.5px;font-family:inherit;color:#0b141a;outline:none;">
+            <sc-for list="{{ participants }}" as="p" hint-placeholder-count="2">
+              <option value="{{ p }}">{{ p }}</option>
+            </sc-for>
+          </select>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a93a3;">Pacing</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <sc-for list="{{ speedChips }}" as="c" hint-placeholder-count="5">
+              <button onClick="{{ c.onClick }}" style="padding:7px 13px;border-radius:999px;font-size:12.5px;font-family:inherit;font-weight:{{ c.weight }};cursor:pointer;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};box-shadow:{{ c.shadow }};">{{ c.label }}</button>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <input type="range" min="0.3" max="15" step="0.1" value="{{ fixedSeconds }}" onInput="{{ onSpeedSlider }}" style="flex:1;">
+            <span style="font-size:12px;color:#7c8798;min-width:42px;text-align:right;font-variant-numeric:tabular-nums;">{{ speedLabel }}</span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;">
+            <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a93a3;">Text animation</div>
+            <div style="font-size:11px;color:#9aa3b2;">{{ animHint }}</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <sc-for list="{{ animChips }}" as="a" hint-placeholder-count="9">
+              <button onClick="{{ a.onClick }}" style="padding:9px 10px;border-radius:13px;font-size:12px;font-family:inherit;font-weight:{{ a.weight }};text-align:left;cursor:pointer;border:1px solid {{ a.border }};background:{{ a.bg }};color:{{ a.color }};box-shadow:{{ a.shadow }};">{{ a.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a93a3;">Look</div>
+          <div style="display:flex;gap:6px;padding:4px;border-radius:14px;background:rgba(120,135,160,.12);">
+            <sc-for list="{{ scopeChips }}" as="s" hint-placeholder-count="2">
+              <button onClick="{{ s.onClick }}" style="flex:1;padding:8px 6px;border-radius:11px;font-size:12px;font-family:inherit;font-weight:{{ s.weight }};cursor:pointer;border:none;background:{{ s.bg }};color:{{ s.color }};box-shadow:{{ s.shadow }};">{{ s.label }}</button>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <label for="avatarFile" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:12px;border:1px solid rgba(60,80,110,.16);background:rgba(255,255,255,.66);font-size:11.5px;font-weight:550;cursor:pointer;">Contact photo</label>
+            <input id="avatarFile" type="file" accept="image/*" onChange="{{ onAvatarFile }}" style="display:none">
+            <label for="wallFile" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:12px;border:1px solid rgba(60,80,110,.16);background:rgba(255,255,255,.66);font-size:11.5px;font-weight:550;cursor:pointer;">Wallpaper</label>
+            <input id="wallFile" type="file" accept="image/*" onChange="{{ onWallFile }}" style="display:none">
+            <label for="musicFile" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:12px;border:1px solid rgba(60,80,110,.16);background:rgba(255,255,255,.66);font-size:11.5px;font-weight:550;cursor:pointer;">Music</label>
+            <input id="musicFile" type="file" accept="audio/*" onChange="{{ onMusicFile }}" style="display:none">
+            <button onClick="{{ onClearAssets }}" style="padding:9px;border-radius:12px;border:1px solid rgba(60,80,110,.16);background:rgba(255,255,255,.4);font-size:11.5px;font-family:inherit;font-weight:550;color:#7c8798;cursor:pointer;">Clear assets</button>
+          </div>
+          <div style="font-size:11px;color:#9aa3b2;">{{ assetLabel }}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;">
+            <span>Sound effects</span>
+            <button onClick="{{ onToggleSound }}" style="width:46px;height:27px;border-radius:999px;border:none;padding:3px;cursor:pointer;display:flex;justify-content:{{ soundJustify }};background:{{ soundBg }};box-shadow:inset 0 1px 3px rgba(0,0,0,.14);">
+              <span style="width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.28);display:block;"></span>
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div style="display:flex;gap:8px;">
+            <button onClick="{{ onPlay }}" style="flex:1;padding:12px;border-radius:15px;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:650;color:#fff;background:linear-gradient(145deg,#34c759,#16a34a);box-shadow:0 8px 20px rgba(37,211,102,.34),inset 0 1px 0 rgba(255,255,255,.45);">{{ playLabel }}</button>
+            <button onClick="{{ onRestart }}" style="padding:12px 16px;border-radius:15px;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:600;border:1px solid rgba(60,80,110,.16);background:rgba(255,255,255,.7);color:#33405a;">Restart</button>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button onClick="{{ onShowAll }}" style="flex:1;padding:10px;border-radius:13px;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:600;border:1px solid rgba(60,80,110,.16);background:rgba(255,255,255,.7);color:#33405a;">Show all instantly</button>
+            <button onClick="{{ onToggleTiming }}" style="flex:1;padding:10px;border-radius:13px;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:600;border:1px solid rgba(60,80,110,.16);background:rgba(255,255,255,.7);color:#33405a;">{{ timingLabel }}</button>
+          </div>
+          <button onClick="{{ onShare }}" style="padding:10px;border-radius:13px;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:650;border:1px solid rgba(10,132,255,.22);background:rgba(10,132,255,.08);color:#0060df;">{{ shareLabel }}</button>
+          <div style="height:6px;border-radius:6px;background:rgba(120,135,160,.18);overflow:hidden;">
+            <div style="height:100%;border-radius:6px;background:linear-gradient(90deg,#34c759,#0a84ff);width:{{ progressPct }};transition:width .2s;"></div>
+          </div>
+          <div style="font-size:11px;color:#8a93a3;text-align:center;">{{ progressLabel }}</div>
+        </div>
+
+        <div style="height:1px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(60,80,110,.16),rgba(255,255,255,0));"></div>
+
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a93a3;">Export</div>
+          <div style="font-size:11.5px;color:#7c8798;line-height:16px;">Renders a fresh 1080 × 1920 pass at 30 fps — {{ estLabel }}</div>
+          <button onClick="{{ onExport }}" style="padding:13px;border-radius:15px;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:650;color:#fff;background:linear-gradient(145deg,#0a84ff,#0060df);box-shadow:0 8px 20px rgba(10,132,255,.32),inset 0 1px 0 rgba(255,255,255,.4);">{{ exportLabel }}</button>
+          <div style="font-size:11px;color:#8a93a3;text-align:center;">{{ exportStatus }}</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="phone-column" style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+      <div style="position:relative;width:392px;height:800px;border-radius:56px;padding:11px;background:linear-gradient(150deg,rgba(255,255,255,.92),rgba(226,233,245,.75));box-shadow:0 40px 80px rgba(24,38,64,.26),0 2px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(255,255,255,.7);">
+        <div style="position:absolute;inset:0;border-radius:56px;background:linear-gradient(150deg,rgba(255,255,255,.75),rgba(255,255,255,0) 38%);pointer-events:none;"></div>
+        <div style="position:relative;width:100%;height:100%;border-radius:46px;overflow:hidden;display:flex;flex-direction:column;background:#efe7de;box-shadow:0 0 0 1px rgba(20,30,50,.12);">
+
+          <div style="position:absolute;inset:0;background-image:{{ wallpaperImage }};background-size:cover;background-position:center;background-color:#efe7de;"></div>
+          <div style="position:absolute;inset:0;background:radial-gradient(circle at 22% 18%,rgba(255,255,255,.5),transparent 42%),radial-gradient(circle at 78% 62%,rgba(0,0,0,.035),transparent 40%);"></div>
+
+          <div style="position:relative;background:rgba(247,247,250,.72);backdrop-filter:blur(26px) saturate(180%);-webkit-backdrop-filter:blur(26px) saturate(180%);border-bottom:.5px solid rgba(60,70,90,.16);">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 24px 2px;font-size:13.5px;font-weight:650;letter-spacing:-.1px;">
+              <span style="font-variant-numeric:tabular-nums;">{{ clock }}</span>
+              <span style="display:flex;align-items:center;gap:5px;">
+                <svg width="17" height="11" viewBox="0 0 17 11" fill="#0b141a"><rect x="0" y="7.5" width="3" height="3.5" rx="1"></rect><rect x="4.4" y="5.4" width="3" height="5.6" rx="1"></rect><rect x="8.8" y="3" width="3" height="8" rx="1"></rect><rect x="13.2" y="0" width="3" height="11" rx="1"></rect></svg>
+                <svg width="16" height="11" viewBox="0 0 16 12" fill="none" stroke="#0b141a" stroke-width="1.6" stroke-linecap="round"><path d="M1 4.2a10 10 0 0 1 14 0"></path><path d="M3.6 7a6.4 6.4 0 0 1 8.8 0"></path><path d="M6.2 9.7a2.7 2.7 0 0 1 3.6 0"></path></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.5" y="0.5" width="20" height="11" rx="3.4" fill="none" stroke="rgba(11,20,26,.4)"></rect><rect x="2.2" y="2.2" width="15.6" height="7.6" rx="2" fill="#0b141a"></rect><path d="M22.4 4.2v3.6a2 2 0 0 0 0-3.6z" fill="rgba(11,20,26,.4)"></path></svg>
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:6px 14px 10px;">
+              <svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="#0a84ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 10l8 8"></path></svg>
+              <div style="width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:600;background-color:{{ avatarColor }};background-image:{{ avatarImage }};background-size:cover;background-position:center;box-shadow:0 2px 6px rgba(0,0,0,.14);">{{ avatarText }}</div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:16px;font-weight:600;letter-spacing:-.25px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ headerName }}</div>
+                <div style="font-size:12.5px;color:#6b7684;height:16px;">{{ headerStatus }}</div>
+              </div>
+              <div style="display:flex;gap:18px;color:#0a84ff;">
+                <svg width="23" height="15" viewBox="0 0 23 15" fill="none" stroke="#0a84ff" stroke-width="1.9" stroke-linejoin="round"><rect x="1" y="1" width="14" height="13" rx="3.4"></rect><path d="m16 5.6 5.4-3.3v10.4L16 9.4z"></path></svg>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="#0a84ff"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"></path></svg>
+              </div>
+            </div>
+          </div>
+
+          <div ref="{{ bodyRef }}" style="position:relative;flex:1;overflow-y:auto;padding:12px 8px 10px;display:flex;flex-direction:column;">
+
+            <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#8a93a3;text-align:center;padding:30px;">
+                <div style="width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.62);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(30,45,70,.12),inset 0 1px 0 rgba(255,255,255,.9);">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="#9aa3b2"><path d="M12 3C6.9 3 2.8 6.4 2.8 10.6c0 2.3 1.2 4.4 3.1 5.8L5 21l4.2-2.2c.9.2 1.8.3 2.8.3 5.1 0 9.2-3.4 9.2-7.5S17.1 3 12 3z"></path></svg>
+                </div>
+                <div style="font-size:13.5px;">Press Play to start the replay</div>
+              </div>
+            </sc-if>
+
+            <sc-for list="{{ bubbles }}" as="m" hint-placeholder-count="4">
+              <sc-if value="{{ m.isDivider }}" hint-placeholder-val="{{ false }}">
+                <div style="align-self:center;margin:10px 0;padding:5px 13px;border-radius:9px;font-size:11.5px;font-weight:550;color:#54656f;background:rgba(255,255,255,.78);backdrop-filter:blur(14px);box-shadow:0 1px 2px rgba(0,0,0,.08);animation:fadeIn .3s both;">{{ m.text }}</div>
+              </sc-if>
+              <sc-if value="{{ m.isSystem }}" hint-placeholder-val="{{ false }}">
+                <div style="align-self:center;margin:8px 24px;padding:7px 13px;border-radius:9px;font-size:11.5px;line-height:16px;text-align:center;color:#6b6244;background:rgba(255,247,205,.88);backdrop-filter:blur(12px);box-shadow:0 1px 2px rgba(0,0,0,.07);animation:fadeIn .3s both;">{{ m.text }}</div>
+              </sc-if>
+              <sc-if value="{{ m.isMsg }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;width:100%;margin:2px 0;justify-content:{{ m.justify }};">
+                  <div style="max-width:78%;min-width:64px;padding:6px 9px 7px 10px;font-size:14.5px;line-height:20px;color:#0b141a;word-wrap:break-word;overflow-wrap:anywhere;box-shadow:0 1px 1.5px rgba(0,0,0,.14);background:{{ m.bg }};border-radius:11px;border-top-left-radius:{{ m.tlr }};border-top-right-radius:{{ m.trr }};animation:{{ m.anim }};"><sc-if value="{{ m.isSpecial }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:7px;background:rgba(0,0,0,.045);border-radius:8px;padding:8px 10px;font-size:12.5px;color:#3b4a54;min-width:118px;">{{ m.specialLabel }}</span></sc-if><sc-if value="{{ m.isText }}" hint-placeholder-val="{{ true }}"><span style="white-space:pre-wrap;">{{ m.shownText }}</span></sc-if><sc-if value="{{ m.showCaret }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:inline-block;width:1.5px;height:14px;background:#0b141a;margin-left:1px;vertical-align:-2px;animation:caretBlink .85s steps(1) infinite;"></span>
+                    </sc-if><span style="float:right;display:flex;align-items:center;gap:3px;margin:5px 0 -2px 9px;transform:translateY(3px);">
+                      <span style="font-size:11px;color:#667781;font-variant-numeric:tabular-nums;">{{ m.time }}</span>
+                      <sc-if value="{{ m.isMe }}" hint-placeholder-val="{{ false }}">
+                        <svg width="17" height="11" viewBox="0 0 20 11" fill="{{ m.tickColor }}"><path d="M10.1 1.2 4.4 8 1.8 5.3.6 6.5l3.9 4L11.4 2.4z"></path><path d="M17.9 1.2 12.2 8l-1-1.1-1.2 1.4 2.3 2.4L19.2 2.4z"></path></svg></sc-if></span>
+                  </div>
+                </div>
+              </sc-if>
+            </sc-for>
+
+            <sc-if value="{{ typing }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;width:100%;margin:2px 0;justify-content:flex-start;">
+                <div style="background:#fff;border-radius:11px;border-top-left-radius:2px;padding:11px 14px;display:flex;gap:4px;align-items:center;box-shadow:0 1px 1.5px rgba(0,0,0,.14);animation:popIn .2s both;">
+                  <span style="width:7px;height:7px;border-radius:50%;background:#93999e;animation:blink 1.3s infinite;"></span>
+                  <span style="width:7px;height:7px;border-radius:50%;background:#93999e;animation:blink 1.3s infinite .18s;"></span>
+                  <span style="width:7px;height:7px;border-radius:50%;background:#93999e;animation:blink 1.3s infinite .36s;"></span>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="position:relative;padding:8px 10px 10px;background:rgba(247,247,250,.78);backdrop-filter:blur(26px) saturate(180%);-webkit-backdrop-filter:blur(26px) saturate(180%);border-top:.5px solid rgba(60,70,90,.14);display:flex;align-items:center;gap:9px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b7684" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9.2"></circle><path d="M12 7.6v8.8M7.6 12h8.8"></path></svg>
+            <div style="flex:1;background:#fff;border-radius:19px;padding:9px 14px;font-size:14.5px;color:#9aa3b2;border:.5px solid rgba(60,70,90,.12);">Message</div>
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="#6b7684"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"></path><path d="M18.5 11.5a.9.9 0 0 0-1.8 0 4.7 4.7 0 0 1-9.4 0 .9.9 0 0 0-1.8 0 6.5 6.5 0 0 0 5.6 6.4V21h1.8v-3.1a6.5 6.5 0 0 0 5.6-6.4z"></path></svg>
+          </div>
+          <div style="position:relative;display:flex;justify-content:center;padding:6px 0 8px;background:rgba(247,247,250,.78);">
+            <div style="width:138px;height:5px;border-radius:5px;background:rgba(11,20,26,.28);"></div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:11.5px;color:#8a93a3;">{{ scopeHint }}</div>
+    </div>
+
+    <sc-if value="{{ showTiming }}" hint-placeholder-val="{{ false }}">
+      <div style="width:320px;max-height:820px;display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.58);backdrop-filter:blur(var(--glass-blur)) saturate(190%);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(190%);border:1px solid rgba(255,255,255,.85);border-radius:24px;box-shadow:0 18px 42px rgba(28,42,70,.13),inset 0 1px 0 rgba(255,255,255,.95);padding:16px;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;">
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a93a3;">Per-message timing</div>
+          <button onClick="{{ onResetTimings }}" style="border:none;background:none;font-family:inherit;font-size:11.5px;color:#0a84ff;cursor:pointer;padding:0;">Reset all</button>
+        </div>
+        <div style="font-size:11.5px;color:#8a93a3;line-height:16px;">Seconds of delay before each message. Blank follows the global pacing.</div>
+        <div style="overflow-y:auto;display:flex;flex-direction:column;gap:5px;padding-right:4px;">
+          <sc-for list="{{ timingRows }}" as="r" hint-placeholder-count="6">
+            <div style="display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:12px;background:{{ r.bg }};border:1px solid rgba(60,80,110,.1);">
+              <span style="width:16px;font-size:10.5px;color:#9aa3b2;text-align:right;font-variant-numeric:tabular-nums;">{{ r.n }}</span>
+              <span style="flex:1;min-width:0;font-size:11.5px;color:#4a5568;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.preview }}</span>
+              <input type="number" min="0" max="60" step="0.1" placeholder="{{ r.placeholder }}" value="{{ r.value }}" onInput="{{ r.onInput }}" style="width:58px;padding:5px 7px;border-radius:9px;border:1px solid rgba(60,80,110,.16);background:rgba(255,255,255,.85);font-family:inherit;font-size:11.5px;text-align:right;outline:none;color:#0b141a;">
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <sc-if value="{{ exporting }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:50;background:rgba(232,237,246,.66);backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:28px;">
+      <div style="font-size:15px;font-weight:650;letter-spacing:-.2px;">Rendering 1080 × 1920 · 30 fps</div>
+      <div ref="{{ canvasRef }}" style="width:236px;height:420px;border-radius:26px;overflow:hidden;box-shadow:0 30px 70px rgba(24,38,64,.3),0 0 0 1px rgba(255,255,255,.7);background:#000;"></div>
+      <div style="width:280px;height:6px;border-radius:6px;background:rgba(120,135,160,.24);overflow:hidden;">
+        <div style="height:100%;background:linear-gradient(90deg,#0a84ff,#34c759);width:{{ exportPct }};"></div>
+      </div>
+      <div style="font-size:12px;color:#5c6779;">{{ exportStatus }}</div>
+      <div style="font-size:11.5px;color:#8a93a3;">Keep this tab in the foreground while it renders</div>
+      <button onClick="{{ onCancelExport }}" style="padding:9px 20px;border-radius:13px;border:1px solid rgba(60,80,110,.2);background:rgba(255,255,255,.8);font-family:inherit;font-size:12.5px;font-weight:600;color:#33405a;cursor:pointer;">Cancel</button>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:900},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#25D366&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#25D366&quot;,&quot;#0a84ff&quot;,&quot;#ff375f&quot;,&quot;#af52de&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;glass&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Heavy&quot;,&quot;options&quot;:[&quot;Subtle&quot;,&quot;Medium&quot;,&quot;Heavy&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;defaultAnim&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Pop in&quot;,&quot;options&quot;:[&quot;Pop in&quot;,&quot;Slide up&quot;,&quot;Typewriter&quot;,&quot;Blur in&quot;,&quot;Spring bounce&quot;,&quot;Word by word&quot;,&quot;Scale from tap&quot;,&quot;Elastic wobble&quot;,&quot;Fade only&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Playback&quot;}}">
+const DEMO = `14/03/2024, 9:12 AM - Messages and calls are end-to-end encrypted. No one outside of this chat can read or listen to them.
+14/03/2024, 9:14 AM - Sonia: Good morning! Did you see the sunrise today?
+14/03/2024, 9:15 AM - Me: I slept through it honestly 😅
+14/03/2024, 9:15 AM - Sonia: Of course you did
+14/03/2024, 9:16 AM - Sonia: <Media omitted>
+14/03/2024, 9:18 AM - Me: okay that is genuinely beautiful
+14/03/2024, 9:18 AM - Me: where was this?
+14/03/2024, 9:20 AM - Sonia: The terrace! Same one you said was "nothing special"
+14/03/2024, 9:21 AM - Me: I retract my statement
+14/03/2024, 9:24 AM - Sonia: Coffee at 6? I'll bring the camera and you bring the excuses
+15/03/2024, 7:02 PM - Me: I'm downstairs
+15/03/2024, 7:02 PM - Sonia: two minutes!!
+15/03/2024, 7:09 PM - Me: it has been nine
+15/03/2024, 7:10 PM - Sonia: time is a construct
+15/03/2024, 7:10 PM - Me: 🚶
+15/03/2024, 7:11 PM - Sonia: coming coming coming`;
+
+const ANIMS = [
+  { id: 'pop',   label: 'Pop in',        css: 'popIn .26s cubic-bezier(.2,.9,.3,1.25) both' },
+  { id: 'slide', label: 'Slide up',      css: 'slideUp .34s cubic-bezier(.22,.9,.3,1) both' },
+  { id: 'type',  label: 'Typewriter',    css: 'fadeIn .12s both' },
+  { id: 'blur',  label: 'Blur in',       css: 'blurIn .42s cubic-bezier(.22,.9,.3,1) both' },
+  { id: 'spring',label: 'Spring bounce', css: null },
+  { id: 'word',  label: 'Word by word',  css: 'fadeIn .12s both' },
+  { id: 'tap',   label: 'Scale from tap',css: null },
+  { id: 'wobble',label: 'Elastic wobble',css: 'wobbleIn .55s cubic-bezier(.3,.9,.4,1) both' },
+  { id: 'fade',  label: 'Fade only',     css: 'fadeIn .38s ease both' }
+];
+const ANIM_HINT = {
+  pop: 'scale + settle', slide: 'rises into place', type: 'letter by letter',
+  blur: 'focus pull', spring: 'overshoot from the side', word: 'word cadence',
+  tap: 'grows from the tail', wobble: 'springy rotation', fade: 'no motion'
+};
+const AVATAR_COLORS = ['#7C4DFF','#00BFA5','#FF7043','#5C6BC0','#26A69A','#EC407A','#7E57C2','#42A5F5','#FFA726','#8D6E63'];
+const SENT_BG = '#e7ffdb', RECV_BG = '#ffffff';
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+class Component extends DCLogic {
+  state = {
+    messages: [], participants: [], meName: null,
+    items: [], idx: 0, playing: false, typing: false,
+    speedMode: 'fixed', fixedSeconds: 3, timings: {},
+    anim: 'pop', scope: 'screen', sound: true,
+    fileLabel: 'Demo chat loaded', showTiming: false,
+    avatarUrl: null, wallUrl: null, musicName: null,
+    rangeStart: '', rangeEnd: '',
+    clock: '9:41', exporting: false, exportPct: 0, exportStatus: 'Ready',
+    projectId: '', saveStatus: 'Local draft',
+    headerStatus: 'online'
+  };
+
+  componentDidMount() {
+    const root = document.documentElement.style;
+    root.setProperty('--accent', this.props.accent || '#25D366');
+    const blur = { Subtle: '18px', Medium: '30px', Heavy: '44px' }[this.props.glass || 'Heavy'];
+    root.setProperty('--glass-blur', blur);
+    const a = ANIMS.find(x => x.label === this.props.defaultAnim);
+    this.load(DEMO, 'Demo chat loaded', a ? a.id : undefined);
+    this._rawChat = DEMO;
+    this._readyToSave = true;
+    const projectId = new URLSearchParams(location.search).get('project');
+    if (projectId) this.loadProject(projectId);
+    else this.setState({ projectId: this.newProjectId() });
+    this.tickClock();
+    this._clockTimer = setInterval(() => this.tickClock(), 20000);
+  }
+  componentWillUnmount() {
+    clearInterval(this._clockTimer);
+    this.stopRequested = true;
+    if (this._rec && this._rec.state === 'recording') this._rec.stop();
+  }
+  componentDidUpdate() { this.queueSave(); }
+  tickClock() { this.setState({ clock: this.fmtTime(new Date()) }); }
+
+  newProjectId() { return crypto.randomUUID ? crypto.randomUUID().replace(/-/g, '') : Math.random().toString(36).slice(2) + Date.now().toString(36); }
+  projectPayload() {
+    const s = this.state;
+    return { raw: this._rawChat || '', settings: {
+      meName: s.meName, speedMode: s.speedMode, fixedSeconds: s.fixedSeconds,
+      timings: s.timings, anim: s.anim, scope: s.scope, sound: s.sound,
+      rangeStart: s.rangeStart, rangeEnd: s.rangeEnd
+    }};
+  }
+  queueSave() {
+    if (!this._readyToSave || this._hydrating || this.state.exporting) return;
+    const body = this.projectPayload();
+    const signature = JSON.stringify(body);
+    if (signature === this._lastSaved) return;
+    clearTimeout(this._saveTimer);
+    this._saveTimer = setTimeout(() => this.saveProject(body, signature), 700);
+  }
+  async saveProject(body, signature) {
+    const id = this.state.projectId || this.newProjectId();
+    try {
+      const res = await fetch('/api/projects?id=' + encodeURIComponent(id), {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+      });
+      if (!res.ok) throw new Error('Save failed');
+      this._lastSaved = signature || JSON.stringify(body);
+      if (id !== this.state.projectId) {
+        history.replaceState({}, '', '?project=' + encodeURIComponent(id));
+        this.setState({ projectId: id, saveStatus: 'Saved to server' });
+      } else this.setState({ saveStatus: 'Saved to server' });
+    } catch (err) {
+      this.setState({ saveStatus: 'Offline draft · retrying' });
+    }
+  }
+  async loadProject(id) {
+    this._hydrating = true;
+    try {
+      const res = await fetch('/api/projects?id=' + encodeURIComponent(id));
+      if (!res.ok) throw new Error('Project not found');
+      const payload = await res.json();
+      this._rawChat = payload.raw || DEMO;
+      this.load(this._rawChat, 'Shared project');
+      const s = payload.settings || {};
+      this.setState({ projectId: id, meName: s.meName || this.state.meName, speedMode: s.speedMode || 'fixed', fixedSeconds: s.fixedSeconds || 3, timings: s.timings || {}, anim: s.anim || this.state.anim, scope: s.scope || 'screen', sound: s.sound !== false, rangeStart: s.rangeStart || '', rangeEnd: s.rangeEnd || '', saveStatus: 'Loaded from server' }, () => this.showAllActive());
+      document.body.classList.add('share-view');
+    } catch (err) {
+      this.setState({ projectId: id, saveStatus: 'Could not load shared project' });
+    } finally { this._hydrating = false; }
+  }
+
+  showAllActive() {
+    const items = [];
+    let lastDay = null;
+    this.activeMessages().forEach((m, i) => {
+      const key = m.ts.toDateString();
+      if (key !== lastDay) { lastDay = key; items.push({ key: 'd' + i, kind: 'divider', text: this.fmtDay(m.ts), msg: { ts: m.ts } }); }
+      items.push({ key: 'm' + i, kind: m.kind === 'system' ? 'system' : 'msg', msg: m, isMe: m.sender === this.state.meName, reveal: 1, read: true });
+    });
+    this.setState({ items, idx: this.activeMessages().length, playing: false, typing: false }, () => this.scrollDown());
+  }
+
+  /* ---------- parsing ---------- */
+  parseDT(d, t) {
+    let [a, b, y] = d.split('/').map(Number);
+    if (y < 100) y += 2000;
+    let m = a, day = b;
+    if (a > 12) { day = a; m = b; }
+    const pm = /pm/i.test(t);
+    const hasAp = /[ap]m/i.test(t);
+    let [hh, mm] = t.replace(/\s?[apAP][mM]/, '').trim().split(':').map(Number);
+    if (hasAp) { if (pm && hh !== 12) hh += 12; if (!pm && hh === 12) hh = 0; }
+    return new Date(y, m - 1, day, hh, mm);
+  }
+  parse(raw) {
+    const head = /^(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2}(?::\d{2})?(?:\s?[APap][Mm])?)\s[-–]\s(.+)$/;
+    const who = /^([^:]{1,40}?):\s([\s\S]*)$/;
+    const out = [];
+    for (let line of raw.split(/\r?\n/)) {
+      line = line.replace(/^[\u200e\u200f]+/, '');
+      const m = line.match(head);
+      if (m) {
+        const rest = m[3], sm = rest.match(who);
+        out.push({
+          ts: this.parseDT(m[1], m[2]),
+          sender: sm ? sm[1].trim() : null,
+          kind: sm ? 'text' : 'system',
+          text: sm ? sm[2] : rest
+        });
+      } else if (out.length && line.trim()) {
+        out[out.length - 1].text += '\n' + line;
+      }
+    }
+    for (const m of out) {
+      if (m.kind !== 'text') continue;
+      const t = m.text.trim();
+      if (t === '<Media omitted>' || /\(file attached\)$/.test(t)) {
+        m.kind = /\.vcf/.test(t) ? 'contact' : 'media';
+        if (m.kind === 'contact') m.label = 'Contact card';
+      } else if (!t) m.kind = 'sticker';
+      else if (/this message was deleted/i.test(t)) m.kind = 'deleted';
+      else if (/<This message was edited>$/.test(t)) { m.edited = true; m.text = t.replace(/\s*<This message was edited>$/, ''); }
+    }
+    const participants = [...new Set(out.filter(x => x.sender).map(x => x.sender))];
+    return { messages: out, participants };
+  }
+  guessMe(participants) {
+    return participants.find(p => /^(me|you)$/i.test(p.trim())) || participants[0] || null;
+  }
+  load(raw, label, anim) {
+    const { messages, participants } = this.parse(raw);
+    this._rawChat = raw;
+    this.stopRequested = true;
+    this.setState({
+      messages, participants, meName: this.guessMe(participants),
+      items: [], idx: 0, playing: false, typing: false, timings: {},
+      fileLabel: label, headerStatus: 'online',
+      rangeStart: '', rangeEnd: '',
+      anim: anim || this.state.anim
+    });
+  }
+
+  /* ---------- helpers ---------- */
+  fmtTime(ts) {
+    let h = ts.getHours(); const m = ts.getMinutes();
+    const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+    return h + ':' + String(m).padStart(2, '0') + ' ' + ap;
+  }
+  fmtDay(ts) { return DAYS[ts.getDay()] + ' · ' + ts.getDate() + ' ' + MONTHS[ts.getMonth()] + ' ' + ts.getFullYear(); }
+  activeMessages() {
+    const { rangeStart, rangeEnd, messages } = this.state;
+    const start = rangeStart ? new Date(rangeStart).getTime() : -Infinity;
+    const end = rangeEnd ? new Date(rangeEnd).getTime() : Infinity;
+    return messages.filter(m => m.ts.getTime() >= start && m.ts.getTime() <= end);
+  }
+  dateInput(ts) {
+    const p = n => String(n).padStart(2, '0');
+    return ts.getFullYear() + '-' + p(ts.getMonth() + 1) + '-' + p(ts.getDate()) + 'T' + p(ts.getHours()) + ':' + p(ts.getMinutes());
+  }
+  colorFor(n) { let h = 0; for (let i = 0; i < n.length; i++) h = n.charCodeAt(i) + ((h << 5) - h); return AVATAR_COLORS[Math.abs(h) % AVATAR_COLORS.length]; }
+  initials(n) { return n.split(' ').filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join(''); }
+  other() { const p = this.state.participants; return p.find(x => x !== this.state.meName) || p[0] || 'Contact'; }
+  specialLabel(m) {
+    if (m.kind === 'media') return '📷  Photo / Video';
+    if (m.kind === 'sticker') return '✨  Sticker';
+    if (m.kind === 'contact') return '👤  ' + (m.label || 'Contact card');
+    if (m.kind === 'deleted') return '🚫  This message was deleted';
+    return '';
+  }
+  delayFor(i) {
+    const o = this.state.timings[i];
+    if (o !== undefined && o !== '' && !isNaN(parseFloat(o))) return parseFloat(o);
+    if (this.state.speedMode === 'real') {
+      const msgs = this.activeMessages();
+      if (i === 0) return 0.6;
+      let d = (msgs[i].ts - msgs[i - 1].ts) / 1000;
+      if (!(d > 0)) d = 1;
+      return Math.min(Math.max(d, 0.5), 12);
+    }
+    return this.state.fixedSeconds;
+  }
+  totalDuration() {
+    let t = 0;
+    for (let i = 0; i < this.activeMessages().length; i++) t += this.delayFor(i);
+    return t + 2;
+  }
+
+  /* ---------- audio ---------- */
+  ctx() {
+    if (!this._actx) {
+      this._actx = new (window.AudioContext || window.webkitAudioContext)();
+      this._sfxGain = this._actx.createGain();
+      this._sfxGain.gain.value = 1;
+      this._sfxGain.connect(this._actx.destination);
+    }
+    if (this._actx.state === 'suspended') this._actx.resume();
+    return this._actx;
+  }
+  beep(f1, f2, dur, type, vol) {
+    if (!this.state.sound) return;
+    const c = this.ctx(), t0 = c.currentTime;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type || 'sine';
+    o.frequency.setValueAtTime(f1, t0);
+    o.frequency.exponentialRampToValueAtTime(Math.max(f2, 20), t0 + dur);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol, t0 + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(this._sfxGain);
+    o.start(t0); o.stop(t0 + dur + 0.02);
+  }
+  sndRecv() { this.beep(600, 900, .16, 'sine', .13); setTimeout(() => this.beep(900, 1200, .12, 'sine', .09), 70); }
+  sndSend() { this.beep(500, 320, .11, 'sine', .09); }
+
+  /* ---------- preview playback ---------- */
+  sleep(ms) {
+    return new Promise(res => {
+      const t0 = performance.now();
+      const step = () => {
+        if (this.stopRequested) return res();
+        if (!this.state.playing) return requestAnimationFrame(step);
+        if (performance.now() - t0 >= ms) return res();
+        requestAnimationFrame(step);
+      };
+      step();
+    });
+  }
+  scrollDown() {
+    const el = this._body;
+    if (el) requestAnimationFrame(() => { el.scrollTop = el.scrollHeight; });
+  }
+  pushItem(i) {
+    const m = this.activeMessages()[i];
+    const items = this.state.items.slice();
+    const prev = items.filter(x => x.kind !== 'divider').slice(-1)[0];
+    const prevTs = prev ? prev.msg.ts : null;
+    if (!prevTs || prevTs.toDateString() !== m.ts.toDateString()) {
+      items.push({ key: 'd' + i, kind: 'divider', text: this.fmtDay(m.ts), msg: { ts: m.ts } });
+    }
+    const isMe = m.sender === this.state.meName;
+    const item = { key: 'm' + i, kind: m.kind === 'system' ? 'system' : 'msg', msg: m, isMe, reveal: 1 };
+    const an = this.state.anim;
+    if ((an === 'type' || an === 'word') && m.kind === 'text') item.reveal = 0;
+    items.push(item);
+    // read receipts on my earlier messages once the other side speaks
+    if (!isMe) items.forEach(x => { if (x.kind === 'msg' && x.isMe) x.read = true; });
+    this.setState({ items }, () => {
+      this.scrollDown();
+      if (item.reveal === 0) this.runReveal(item);
+    });
+    if (m.kind !== 'system') (isMe ? this.sndSend() : this.sndRecv());
+  }
+  runReveal(item) {
+    const word = this.state.anim === 'word';
+    const units = word ? item.msg.text.split(/(\s+)/).length : item.msg.text.length;
+    const per = word ? 110 : 26;
+    const dur = Math.min(units * per, 4200);
+    const t0 = performance.now();
+    const step = () => {
+      if (this.stopRequested) { item.reveal = 1; this.forceUpdate(); return; }
+      const p = Math.min(1, (performance.now() - t0) / dur);
+      item.reveal = p;
+      this.forceUpdate();
+      this.scrollDown();
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  async loop() {
+    this.stopRequested = false;
+    const messages = this.activeMessages();
+    while (this.state.idx < messages.length) {
+      if (this.stopRequested) return;
+      const i = this.state.idx;
+      const m = messages[i];
+      const d = this.delayFor(i) * 1000;
+      if (m.kind !== 'system' && m.sender !== this.state.meName) {
+        await this.sleep(Math.min(d * 0.35, 500));
+        if (this.stopRequested) return;
+        this.setState({ typing: true, headerStatus: 'typing…' });
+        this.scrollDown();
+        await this.sleep(Math.max(d * 0.6, 450));
+        this.setState({ typing: false, headerStatus: 'online' });
+      } else {
+        await this.sleep(d * 0.6);
+      }
+      if (this.stopRequested) return;
+      this.pushItem(i);
+      this.setState({ idx: i + 1 });
+    }
+    this.setState({ playing: false, headerStatus: 'online' });
+  }
+  reset() {
+    this.stopRequested = true;
+    this.setState({ items: [], idx: 0, playing: false, typing: false, headerStatus: 'online' });
+  }
+
+  /* ---------- canvas renderer (export) ---------- */
+  buildTimeline() {
+    const msgs = this.activeMessages(), tl = [];
+    let t = 0, lastDay = null;
+    for (let i = 0; i < msgs.length; i++) {
+      const m = msgs[i], d = this.delayFor(i);
+      const isMe = m.sender === this.state.meName;
+      const typingDur = (!isMe && m.kind !== 'system') ? Math.max(d * 0.6, 0.45) : 0;
+      t += d;
+      const key = m.ts.toDateString();
+      if (key !== lastDay) { lastDay = key; tl.push({ t: t - 0.15, kind: 'divider', text: this.fmtDay(m.ts) }); }
+      tl.push({ t, kind: m.kind === 'system' ? 'system' : 'msg', msg: m, isMe, typingFrom: typingDur ? t - typingDur : null, i });
+    }
+    return { tl, dur: t + 2 };
+  }
+  wrap(ctx, text, maxW) {
+    const out = [];
+    for (const para of String(text).split('\n')) {
+      if (!para) { out.push(''); continue; }
+      let line = '';
+      for (const w of para.split(' ')) {
+        const test = line ? line + ' ' + w : w;
+        if (ctx.measureText(test).width <= maxW || !line) {
+          if (ctx.measureText(test).width > maxW && !line) {
+            let cur = '';
+            for (const ch of w) {
+              if (ctx.measureText(cur + ch).width > maxW && cur) { out.push(cur); cur = ch; }
+              else cur += ch;
+            }
+            line = cur;
+          } else line = test;
+        } else { out.push(line); line = w; }
+      }
+      out.push(line);
+    }
+    return out;
+  }
+  rr(ctx, x, y, w, h, r) {
+    const rad = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + rad, y);
+    ctx.arcTo(x + w, y, x + w, y + h, rad);
+    ctx.arcTo(x + w, y + h, x, y + h, rad);
+    ctx.arcTo(x, y + h, x, y, rad);
+    ctx.arcTo(x, y, x + w, y, rad);
+    ctx.closePath();
+  }
+  rrCorners(ctx, x, y, w, h, tl, tr, br, bl) {
+    ctx.beginPath();
+    ctx.moveTo(x + tl, y);
+    ctx.lineTo(x + w - tr, y); ctx.quadraticCurveTo(x + w, y, x + w, y + tr);
+    ctx.lineTo(x + w, y + h - br); ctx.quadraticCurveTo(x + w, y + h, x + w - br, y + h);
+    ctx.lineTo(x + bl, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - bl);
+    ctx.lineTo(x, y + tl); ctx.quadraticCurveTo(x, y, x + tl, y);
+    ctx.closePath();
+  }
+  measureItem(ctx, e, S, maxW) {
+    if (e._m && e._m.S === S) return e._m;
+    const pad = 9 * S;
+    let lines = [], w = 0, h = 0, special = null;
+    ctx.font = (14.5 * S) + 'px -apple-system, "SF Pro Text", system-ui, sans-serif';
+    const metaW = ctx.measureText('00:00 XX').width * 0.78 + (e.isMe ? 20 * S : 4 * S);
+    if (e.kind === 'divider' || e.kind === 'system') {
+      ctx.font = (11.5 * S) + 'px -apple-system, system-ui, sans-serif';
+      lines = this.wrap(ctx, e.text || (e.msg ? e.msg.text : ''), maxW * 0.86);
+      h = lines.length * 16 * S + 14 * S;
+      w = Math.max(...lines.map(l => ctx.measureText(l).width)) + 26 * S;
+      return (e._m = { S, lines, w, h, kind: e.kind });
+    }
+    const m = e.msg;
+    if (m.kind !== 'text') {
+      special = this.specialLabel(m);
+      ctx.font = (12.5 * S) + 'px -apple-system, system-ui, sans-serif';
+      w = ctx.measureText(special).width + 22 * S + pad * 2;
+      h = 34 * S + pad * 2 + 8 * S;
+      return (e._m = { S, lines: [], special, w: Math.max(w, 140 * S), h, metaW, kind: 'msg' });
+    }
+    lines = this.wrap(ctx, m.text, maxW - pad * 2);
+    const longest = Math.max(...lines.map(l => ctx.measureText(l).width));
+    const lastW = ctx.measureText(lines[lines.length - 1] || '').width;
+    const inline = lastW + metaW + pad * 2 <= maxW;
+    w = Math.min(maxW, Math.max(inline ? lastW + metaW : longest, longest, 74 * S) + pad * 2);
+    h = lines.length * 20 * S + pad * 2 + (inline ? 0 : 15 * S);
+    return (e._m = { S, lines, w, h, metaW, inline, kind: 'msg' });
+  }
+  drawTicks(ctx, x, y, S, read) {
+    ctx.save();
+    ctx.strokeStyle = read ? '#34b7f1' : '#8696a0';
+    ctx.lineWidth = 1.5 * S; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    for (const dx of [0, 4.6 * S]) {
+      ctx.beginPath();
+      ctx.moveTo(x + dx, y + 4 * S);
+      ctx.lineTo(x + dx + 2.6 * S, y + 6.6 * S);
+      ctx.lineTo(x + dx + 8 * S, y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  easeOut(p) { return 1 - Math.pow(1 - p, 3); }
+  drawScreen(ctx, X, Y, W, H, t, tl) {
+    const S = W / 393;
+    ctx.save();
+    this.rr(ctx, X, Y, W, H, 0);
+    ctx.clip();
+
+    // wallpaper
+    if (this._wallImg && this._wallImg.complete) {
+      const img = this._wallImg, ir = img.width / img.height, r = W / H;
+      let sw = img.width, sh = img.height, sx = 0, sy = 0;
+      if (ir > r) { sw = img.height * r; sx = (img.width - sw) / 2; } else { sh = img.width / r; sy = (img.height - sh) / 2; }
+      ctx.drawImage(img, sx, sy, sw, sh, X, Y, W, H);
+    } else {
+      ctx.fillStyle = '#efe7de'; ctx.fillRect(X, Y, W, H);
+      const g = ctx.createRadialGradient(X + W * .22, Y + H * .18, 0, X + W * .22, Y + H * .18, W * .8);
+      g.addColorStop(0, 'rgba(255,255,255,.45)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g; ctx.fillRect(X, Y, W, H);
+    }
+
+    const statusH = 54 * S, headerH = 58 * S, inputH = 78 * S;
+    const topH = statusH + headerH;
+    const viewTop = Y + topH, viewH = H - topH - inputH;
+
+    // ----- messages -----
+    const visible = tl.filter(e => t >= e.t);
+    const maxW = W * 0.78;
+    let total = 12 * S;
+    const laid = [];
+    for (const e of visible) {
+      const m = this.measureItem(ctx, e, S, maxW);
+      laid.push({ e, m, y: total });
+      total += m.h + (e.kind === 'msg' ? 4 * S : 10 * S);
+    }
+    const typingNow = tl.find(e => e.typingFrom !== null && e.typingFrom !== undefined && t >= e.typingFrom && t < e.t);
+    const typH = 42 * S;
+    if (typingNow) total += typH + 4 * S;
+    const target = Math.max(0, total + 10 * S - viewH);
+    if (this._scroll === undefined || this._resetScroll) { this._scroll = target; this._resetScroll = false; }
+    this._scroll += (target - this._scroll) * 0.22;
+    const off = this._scroll;
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(X, viewTop, W, viewH); ctx.clip();
+    for (const L of laid) {
+      const e = L.e, m = L.m;
+      let y = viewTop + L.y - off;
+      if (y > viewTop + viewH + 60 * S || y + m.h < viewTop - 60 * S) continue;
+      const age = t - e.t, dur = 0.38;
+      const p = Math.max(0, Math.min(1, age / dur)), ep = this.easeOut(p);
+      const an = this.state.anim;
+
+      if (e.kind === 'divider' || e.kind === 'system') {
+        ctx.save(); ctx.globalAlpha = ep;
+        const cx = X + W / 2;
+        ctx.fillStyle = e.kind === 'system' ? 'rgba(255,247,205,.92)' : 'rgba(255,255,255,.82)';
+        this.rr(ctx, cx - m.w / 2, y, m.w, m.h, 9 * S); ctx.fill();
+        ctx.fillStyle = e.kind === 'system' ? '#6b6244' : '#54656f';
+        ctx.font = (11.5 * S) + 'px -apple-system, system-ui, sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+        m.lines.forEach((l, k) => ctx.fillText(l, cx, y + 7 * S + k * 16 * S));
+        ctx.restore();
+        continue;
+      }
+
+      const isMe = e.isMe;
+      let bx = isMe ? X + W - 8 * S - m.w : X + 8 * S;
+      ctx.save();
+      // animation transforms
+      const ax = bx + (isMe ? m.w : 0), ay = y + m.h;
+      ctx.translate(ax, ay);
+      if (an === 'pop') { const s = 0.82 + 0.18 * ep; ctx.globalAlpha = p; ctx.translate(isMe ? -m.w / 2 : m.w / 2, -m.h / 2); ctx.scale(s, s); ctx.translate(isMe ? m.w / 2 : -m.w / 2, m.h / 2); }
+      else if (an === 'slide') { ctx.globalAlpha = p; ctx.translate(0, (1 - ep) * 22 * S); }
+      else if (an === 'blur') { ctx.globalAlpha = p; ctx.filter = 'blur(' + ((1 - ep) * 9).toFixed(2) + 'px)'; }
+      else if (an === 'spring') { const o = (1 - ep) * (isMe ? 48 : -48) * S; ctx.globalAlpha = Math.min(1, p * 1.6); ctx.translate(o, 0); }
+      else if (an === 'tap') { const s = 0.15 + 0.85 * ep; ctx.globalAlpha = p; ctx.scale(s, s); }
+      else if (an === 'wobble') { const s = 0.85 + 0.15 * ep, rot = Math.sin(p * Math.PI * 2.4) * (1 - p) * 0.14; ctx.globalAlpha = Math.min(1, p * 1.8); ctx.translate(isMe ? -m.w / 2 : m.w / 2, -m.h / 2); ctx.rotate(rot); ctx.scale(s, s); ctx.translate(isMe ? m.w / 2 : -m.w / 2, m.h / 2); }
+      else ctx.globalAlpha = p;
+      ctx.translate(-ax, -ay);
+
+      ctx.shadowColor = 'rgba(0,0,0,.16)'; ctx.shadowBlur = 2 * S; ctx.shadowOffsetY = 1 * S;
+      ctx.fillStyle = isMe ? SENT_BG : RECV_BG;
+      const R = 11 * S;
+      this.rrCorners(ctx, bx, y, m.w, m.h, isMe ? R : 2 * S, isMe ? 2 * S : R, R, R);
+      ctx.fill();
+      ctx.shadowColor = 'transparent';
+
+      const pad = 9 * S;
+      if (m.special) {
+        ctx.fillStyle = 'rgba(0,0,0,.045)';
+        this.rr(ctx, bx + pad, y + pad, m.w - pad * 2, 34 * S, 8 * S); ctx.fill();
+        ctx.fillStyle = '#3b4a54';
+        ctx.font = (12.5 * S) + 'px -apple-system, system-ui, sans-serif';
+        ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+        ctx.fillText(m.special, bx + pad + 10 * S, y + pad + 17 * S);
+      } else {
+        ctx.fillStyle = '#0b141a';
+        ctx.font = (14.5 * S) + 'px -apple-system, "SF Pro Text", system-ui, sans-serif';
+        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+        let lines = m.lines;
+        if (an === 'type' || an === 'word') {
+          const full = e.msg.text;
+          const units = an === 'word' ? full.split(/(\s+)/).length : full.length;
+          const rp = Math.min(1, age / Math.min(units * (an === 'word' ? 0.11 : 0.026), 4.2));
+          const shown = an === 'word'
+            ? full.split(/(\s+)/).slice(0, Math.max(1, Math.round(rp * units))).join('')
+            : full.slice(0, Math.max(1, Math.round(rp * full.length)));
+          lines = this.wrap(ctx, shown, m.w - pad * 2);
+        }
+        lines.forEach((l, k) => ctx.fillText(l, bx + pad + 1 * S, y + pad + k * 20 * S + 2 * S));
+      }
+      // meta
+      ctx.font = (11 * S) + 'px -apple-system, system-ui, sans-serif';
+      ctx.fillStyle = '#667781'; ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic';
+      const metaY = y + m.h - pad + 2 * S;
+      const tickW = isMe ? 16 * S : 0;
+      ctx.fillText(this.fmtTime(e.msg.ts), bx + m.w - pad - tickW, metaY);
+      if (isMe) {
+        const laterOther = tl.some(o => !o.isMe && o.kind === 'msg' && o.t > e.t && o.t <= t);
+        this.drawTicks(ctx, bx + m.w - pad - 13 * S, metaY - 8 * S, S, laterOther);
+      }
+      ctx.restore();
+    }
+
+    if (typingNow) {
+      const y = viewTop + total - typH - off + 2 * S, bx = X + 8 * S, bw = 66 * S;
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,.16)'; ctx.shadowBlur = 2 * S; ctx.shadowOffsetY = 1 * S;
+      ctx.fillStyle = '#fff';
+      this.rrCorners(ctx, bx, y, bw, typH, 2 * S, 11 * S, 11 * S, 11 * S); ctx.fill();
+      ctx.shadowColor = 'transparent';
+      for (let k = 0; k < 3; k++) {
+        const ph = (t * 1.6 + k * 0.18) % 1;
+        const a = 0.25 + 0.75 * Math.max(0, Math.sin(ph * Math.PI));
+        ctx.globalAlpha = a; ctx.fillStyle = '#93999e';
+        ctx.beginPath(); ctx.arc(bx + 20 * S + k * 13 * S, y + typH / 2, 3.6 * S, 0, 7); ctx.fill();
+      }
+      ctx.restore();
+    }
+    ctx.restore();
+
+    // ----- header -----
+    ctx.save();
+    ctx.fillStyle = 'rgba(247,247,250,.92)';
+    ctx.fillRect(X, Y, W, topH);
+    ctx.strokeStyle = 'rgba(60,70,90,.18)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(X, Y + topH - .5); ctx.lineTo(X + W, Y + topH - .5); ctx.stroke();
+
+    ctx.fillStyle = '#0b141a';
+    ctx.font = '600 ' + (14 * S) + 'px -apple-system, system-ui, sans-serif';
+    ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.fillText(this.state.clock, X + 26 * S, Y + 26 * S);
+    // signal + battery
+    for (let k = 0; k < 4; k++) {
+      const bh = (4 + k * 2.4) * S;
+      ctx.fillStyle = '#0b141a';
+      this.rr(ctx, X + W - 74 * S + k * 5 * S, Y + 30 * S - bh, 3.2 * S, bh, 1.2 * S); ctx.fill();
+    }
+    ctx.strokeStyle = 'rgba(11,20,26,.45)'; ctx.lineWidth = 1.2 * S;
+    this.rr(ctx, X - 30 * S + W - 10 * S, Y + 20 * S, 24 * S, 11.5 * S, 3.4 * S); ctx.stroke();
+    ctx.fillStyle = '#0b141a';
+    this.rr(ctx, X - 28 * S + W - 10 * S, Y + 22 * S, 20 * S, 7.5 * S, 2.2 * S); ctx.fill();
+
+    // back chevron
+    ctx.strokeStyle = '#0a84ff'; ctx.lineWidth = 2.4 * S; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(X + 20 * S, Y + statusH + 12 * S);
+    ctx.lineTo(X + 13 * S, Y + statusH + 19 * S);
+    ctx.lineTo(X + 20 * S, Y + statusH + 26 * S);
+    ctx.stroke();
+
+    // avatar
+    const av = { x: X + 30 * S, y: Y + statusH + 19 * S, r: 19 * S };
+    const name = this.other();
+    ctx.save();
+    ctx.beginPath(); ctx.arc(av.x + av.r, av.y, av.r, 0, 7); ctx.closePath(); ctx.clip();
+    if (this._avatarImg && this._avatarImg.complete) {
+      const im = this._avatarImg, s = Math.min(im.width, im.height);
+      ctx.drawImage(im, (im.width - s) / 2, (im.height - s) / 2, s, s, av.x, av.y - av.r, av.r * 2, av.r * 2);
+    } else {
+      ctx.fillStyle = this.colorFor(name); ctx.fillRect(av.x, av.y - av.r, av.r * 2, av.r * 2);
+      ctx.fillStyle = '#fff'; ctx.font = '600 ' + (14 * S) + 'px -apple-system, system-ui, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(this.initials(name), av.x + av.r, av.y + 1 * S);
+    }
+    ctx.restore();
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#0b141a'; ctx.font = '600 ' + (16 * S) + 'px -apple-system, system-ui, sans-serif';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText(name, X + 78 * S, Y + statusH + 18 * S);
+    ctx.fillStyle = '#6b7684'; ctx.font = (12.5 * S) + 'px -apple-system, system-ui, sans-serif';
+    ctx.fillText(typingNow ? 'typing…' : 'online', X + 78 * S, Y + statusH + 34 * S);
+
+    // call icons
+    ctx.strokeStyle = '#0a84ff'; ctx.lineWidth = 1.9 * S;
+    const vx = X + W - 84 * S, vy = Y + statusH + 12 * S;
+    this.rr(ctx, vx, vy, 20 * S, 15 * S, 4 * S); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(vx + 22 * S, vy + 5 * S); ctx.lineTo(vx + 29 * S, vy + 1 * S);
+    ctx.lineTo(vx + 29 * S, vy + 14 * S); ctx.lineTo(vx + 22 * S, vy + 10 * S); ctx.closePath(); ctx.stroke();
+    ctx.fillStyle = '#0a84ff';
+    ctx.save();
+    ctx.translate(X + W - 34 * S, Y + statusH + 20 * S); ctx.rotate(-0.35);
+    this.rr(ctx, -5 * S, -11 * S, 10 * S, 22 * S, 4 * S); ctx.fill();
+    ctx.restore();
+    ctx.restore();
+
+    // ----- input bar -----
+    ctx.save();
+    ctx.fillStyle = 'rgba(247,247,250,.94)';
+    ctx.fillRect(X, Y + H - inputH, W, inputH);
+    ctx.strokeStyle = 'rgba(60,70,90,.16)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(X, Y + H - inputH + .5); ctx.lineTo(X + W, Y + H - inputH + .5); ctx.stroke();
+    const iy = Y + H - inputH + 10 * S;
+    ctx.strokeStyle = '#6b7684'; ctx.lineWidth = 1.8 * S;
+    ctx.beginPath(); ctx.arc(X + 24 * S, iy + 18 * S, 9.5 * S, 0, 7); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X + 19 * S, iy + 18 * S); ctx.lineTo(X + 29 * S, iy + 18 * S);
+    ctx.moveTo(X + 24 * S, iy + 13 * S); ctx.lineTo(X + 24 * S, iy + 23 * S); ctx.stroke();
+    ctx.fillStyle = '#fff';
+    this.rr(ctx, X + 42 * S, iy + 2 * S, W - 84 * S, 34 * S, 17 * S); ctx.fill();
+    ctx.strokeStyle = 'rgba(60,70,90,.14)'; ctx.lineWidth = 1; ctx.stroke();
+    ctx.fillStyle = '#9aa3b2'; ctx.font = (14.5 * S) + 'px -apple-system, system-ui, sans-serif';
+    ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.fillText('Message', X + 56 * S, iy + 19 * S);
+    ctx.fillStyle = '#6b7684';
+    this.rr(ctx, X + W - 32 * S, iy + 7 * S, 11 * S, 16 * S, 5.5 * S); ctx.fill();
+    ctx.strokeStyle = '#6b7684'; ctx.lineWidth = 1.8 * S;
+    ctx.beginPath(); ctx.arc(X + W - 26.5 * S, iy + 21 * S, 8 * S, 0.15 * Math.PI, 0.85 * Math.PI); ctx.stroke();
+    ctx.fillStyle = 'rgba(11,20,26,.3)';
+    this.rr(ctx, X + W / 2 - 62 * S, Y + H - 12 * S, 124 * S, 5 * S, 3 * S); ctx.fill();
+    ctx.restore();
+
+    ctx.restore();
+  }
+  drawFrame(ctx, t, tl, Wc, Hc) {
+    if (this.state.scope === 'phone') {
+      const g = ctx.createLinearGradient(0, 0, Wc, Hc);
+      g.addColorStop(0, '#f7f9fc'); g.addColorStop(.5, '#e9eef7'); g.addColorStop(1, '#e3e9f5');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, Wc, Hc);
+      const blobs = [[0.18, 0.14, 'rgba(52,199,89,.35)'], [0.86, 0.3, 'rgba(10,132,255,.3)'], [0.5, 0.92, 'rgba(255,159,10,.22)']];
+      for (const [bx, by, col] of blobs) {
+        const rg = ctx.createRadialGradient(Wc * bx, Hc * by, 0, Wc * bx, Hc * by, Wc * 0.55);
+        rg.addColorStop(0, col); rg.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = rg; ctx.fillRect(0, 0, Wc, Hc);
+      }
+      const pw = Wc * 0.80, ph = pw * (800 / 392), px = (Wc - pw) / 2, py = (Hc - ph) / 2;
+      ctx.save();
+      ctx.shadowColor = 'rgba(24,38,64,.3)'; ctx.shadowBlur = 70; ctx.shadowOffsetY = 34;
+      ctx.fillStyle = 'rgba(255,255,255,.92)';
+      this.rr(ctx, px, py, pw, ph, pw * 0.14); ctx.fill();
+      ctx.restore();
+      const bez = pw * 0.028;
+      ctx.save();
+      this.rr(ctx, px + bez, py + bez, pw - bez * 2, ph - bez * 2, pw * 0.117); ctx.clip();
+      this.drawScreen(ctx, px + bez, py + bez, pw - bez * 2, ph - bez * 2, t, tl);
+      ctx.restore();
+    } else {
+      this.drawScreen(ctx, 0, 0, Wc, Hc, t, tl);
+    }
+  }
+
+  async exportVideo() {
+    if (this.state.exporting || !this.activeMessages().length) return;
+    const Wc = 1080, Hc = 1920, fps = 30;
+    const { tl, dur } = this.buildTimeline();
+    tl.forEach(e => { e._m = null; });
+    const canvas = document.createElement('canvas');
+    canvas.width = Wc; canvas.height = Hc;
+    canvas.style.width = '100%'; canvas.style.height = '100%'; canvas.style.display = 'block';
+    const ctx = canvas.getContext('2d');
+    this._scroll = 0; this._resetScroll = true;
+    this._cancelExport = false;
+    this.setState({ exporting: true, exportPct: 0, exportStatus: 'Starting renderer…' }, () => {
+      if (this._canvasHost) { this._canvasHost.innerHTML = ''; this._canvasHost.appendChild(canvas); }
+    });
+
+    const stream = canvas.captureStream(fps);
+    // audio
+    let audioStarted = null;
+    if (this._musicBuf) {
+      const c = this.ctx();
+      const dest = c.createMediaStreamDestination();
+      this._sfxGain.connect(dest);
+      const src = c.createBufferSource();
+      src.buffer = this._musicBuf; src.loop = true;
+      const g = c.createGain(); g.gain.value = 0.55;
+      src.connect(g); g.connect(dest); g.connect(c.destination);
+      src.start();
+      audioStarted = src;
+      dest.stream.getAudioTracks().forEach(tr => stream.addTrack(tr));
+    }
+
+    const types = [
+      'video/mp4;codecs=avc1.42E01E,mp4a.40.2',
+      'video/mp4;codecs=avc1.42E01E',
+      'video/mp4',
+      'video/webm;codecs=vp9,opus',
+      'video/webm'
+    ];
+    const mime = types.find(ty => window.MediaRecorder && MediaRecorder.isTypeSupported(ty)) || '';
+    const isMp4 = mime.indexOf('mp4') === 0 || mime.startsWith('video/mp4');
+    const rec = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 9000000 } : undefined);
+    this._rec = rec;
+    const chunks = [];
+    rec.ondataavailable = ev => { if (ev.data && ev.data.size) chunks.push(ev.data); };
+    const done = new Promise(res => { rec.onstop = res; });
+    rec.start(200);
+
+    const t0 = performance.now();
+    await new Promise(res => {
+      let finished = false;
+      const finish = () => { if (finished) return; finished = true; res(); };
+      const tick = () => {
+        if (finished) return;
+        const now = performance.now();
+        const t = (now - t0) / 1000;
+        if (this._cancelExport || t >= dur) return finish();
+        this.drawFrame(ctx, t, tl, Wc, Hc);
+        const pct = Math.min(100, Math.round((t / dur) * 100));
+        if (pct !== this.state.exportPct && pct % 5 === 0) {
+          this.setState({ exportPct: pct, exportStatus: 'Rendering · ' + Math.round(dur - t) + 's left' });
+        }
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+
+    rec.stop();
+    if (audioStarted) { try { audioStarted.stop(); } catch (e) {} }
+    await done;
+    this._rec = null;
+
+    if (this._cancelExport) { this.setState({ exporting: false, exportStatus: 'Export cancelled' }); return; }
+    const blob = new Blob(chunks, { type: isMp4 ? 'video/mp4' : 'video/webm' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'chat-replay-1080p.' + (isMp4 ? 'mp4' : 'webm');
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+    const mb = (blob.size / 1048576).toFixed(1);
+    this.setState({
+      exporting: false, exportPct: 100,
+      exportStatus: isMp4 ? 'Saved MP4 · ' + mb + ' MB' : 'Saved WebM · ' + mb + ' MB (this browser can’t encode MP4 — Chrome or Safari can)'
+    });
+  }
+
+  /* ---------- render ---------- */
+  renderVals() {
+    const st = this.state;
+    const chipStyle = on => ({
+      bg: on ? 'linear-gradient(145deg,#34c759,#1aa84c)' : 'rgba(255,255,255,.66)',
+      color: on ? '#ffffff' : '#41506a',
+      border: on ? 'rgba(26,168,76,.4)' : 'rgba(60,80,110,.16)',
+      weight: on ? '650' : '500',
+      shadow: on ? '0 5px 14px rgba(37,211,102,.3), inset 0 1px 0 rgba(255,255,255,.4)' : 'none'
+    });
+
+    const speeds = [
+      { label: 'Real time', mode: 'real' }, { label: '1s', v: 1 }, { label: '2s', v: 2 },
+      { label: '3s', v: 3 }, { label: '5s', v: 5 }, { label: '8s', v: 8 }
+    ];
+    const speedChips = speeds.map(s => {
+      const on = s.mode === 'real' ? st.speedMode === 'real' : (st.speedMode === 'fixed' && Math.abs(st.fixedSeconds - s.v) < 0.05);
+      return Object.assign({ label: s.label, onClick: () => this.setState(s.mode === 'real' ? { speedMode: 'real' } : { speedMode: 'fixed', fixedSeconds: s.v }) }, chipStyle(on));
+    });
+
+    const animChips = ANIMS.map(a => Object.assign(
+      { label: a.label, onClick: () => { this.setState({ anim: a.id }); } },
+      chipStyle(st.anim === a.id)
+    ));
+
+    const scopeChips = [
+      { id: 'screen', label: 'Full-bleed screen' },
+      { id: 'phone', label: 'Phone on gradient' }
+    ].map(s => {
+      const on = st.scope === s.id;
+      return {
+        label: s.label, onClick: () => this.setState({ scope: s.id }),
+        bg: on ? '#ffffff' : 'transparent', color: on ? '#0b141a' : '#6b7684',
+        weight: on ? '650' : '500', shadow: on ? '0 2px 6px rgba(28,42,70,.14)' : 'none'
+      };
+    });
+
+    const bubbles = st.items.map(it => {
+      if (it.kind === 'divider') return { key: it.key, isDivider: true, isSystem: false, isMsg: false, text: it.text };
+      if (it.kind === 'system') return { key: it.key, isDivider: false, isSystem: true, isMsg: false, text: it.msg.text.replace(/\*?Learn more\*?/, '').trim() };
+      const m = it.msg, isText = m.kind === 'text';
+      const anim = ANIMS.find(a => a.id === st.anim);
+      let css = anim.css;
+      if (st.anim === 'spring') css = (it.isMe ? 'springR' : 'springL') + ' .5s cubic-bezier(.3,.9,.4,1) both';
+      if (st.anim === 'tap') css = (it.isMe ? 'scaleTapR' : 'scaleTapL') + ' .34s cubic-bezier(.2,.9,.3,1.1) both';
+      let shown = m.text;
+      if (isText && it.reveal < 1) {
+        if (st.anim === 'word') {
+          const parts = m.text.split(/(\s+)/);
+          shown = parts.slice(0, Math.max(1, Math.round(it.reveal * parts.length))).join('');
+        } else {
+          shown = m.text.slice(0, Math.max(1, Math.round(it.reveal * m.text.length)));
+        }
+      }
+      if (isText && m.edited) shown += '  (edited)';
+      return {
+        key: it.key, isDivider: false, isSystem: false, isMsg: true,
+        isMe: it.isMe, isText, isSpecial: !isText,
+        specialLabel: this.specialLabel(m),
+        shownText: shown,
+        showCaret: isText && it.reveal < 1 && st.anim === 'type',
+        justify: it.isMe ? 'flex-end' : 'flex-start',
+        bg: it.isMe ? SENT_BG : RECV_BG,
+        tlr: it.isMe ? '11px' : '2px',
+        trr: it.isMe ? '2px' : '11px',
+        anim: css,
+        time: this.fmtTime(m.ts),
+        tickColor: it.read ? '#34b7f1' : '#8696a0'
+      };
+    });
+
+    const active = this.activeMessages();
+    const timingRows = active.map((m, i) => ({
+      key: 't' + i, n: i + 1,
+      preview: (m.sender ? m.sender.split(' ')[0] + ': ' : '') + (m.kind === 'text' ? m.text.replace(/\n/g, ' ') : this.specialLabel(m)),
+      placeholder: this.state.speedMode === 'real' ? 'auto' : String(st.fixedSeconds),
+      value: st.timings[i] === undefined ? '' : st.timings[i],
+      bg: m.sender === st.meName ? 'rgba(231,255,219,.55)' : 'rgba(255,255,255,.6)',
+      onInput: e => {
+        const v = e.target.value;
+        this.setState(s => ({ timings: Object.assign({}, s.timings, { [i]: v }) }));
+      }
+    }));
+
+    const dur = this.totalDuration();
+    const mm = Math.floor(dur / 60), ss = Math.round(dur % 60);
+    const assetBits = [];
+    if (st.avatarUrl) assetBits.push('photo');
+    if (st.wallUrl) assetBits.push('wallpaper');
+    if (st.musicName) assetBits.push('music');
+
+    return {
+      bubbles, timingRows, speedChips, animChips, scopeChips,
+      participants: st.participants, meName: st.meName,
+      fileLabel: st.fileLabel,
+      clock: st.clock,
+      headerName: this.other(),
+      headerStatus: st.typing ? 'typing…' : st.headerStatus,
+      avatarText: st.avatarUrl ? '' : this.initials(this.other()),
+      avatarColor: this.colorFor(this.other()),
+      avatarImage: st.avatarUrl ? 'url(' + st.avatarUrl + ')' : 'none',
+      wallpaperImage: st.wallUrl ? 'url(' + st.wallUrl + ')' : 'none',
+      isEmpty: st.items.length === 0,
+      typing: st.typing,
+      playing: st.playing,
+      playLabel: st.playing ? 'Pause' : (st.idx ? 'Resume' : 'Play'),
+      progressPct: (active.length ? Math.round((st.idx / active.length) * 100) : 0) + '%',
+      progressLabel: st.idx + ' / ' + active.length + ' messages',
+      speedLabel: st.speedMode === 'real' ? 'real' : st.fixedSeconds.toFixed(1) + 's',
+      fixedSeconds: st.fixedSeconds,
+      animHint: ANIM_HINT[st.anim],
+      scopeHint: st.scope === 'phone' ? 'Export frames the phone on a soft gradient' : 'Export fills the frame with the chat screen',
+      assetLabel: assetBits.length ? 'Using ' + assetBits.join(' · ') : 'No custom photo, wallpaper or music',
+      soundBg: st.sound ? 'linear-gradient(145deg,#34c759,#1aa84c)' : 'rgba(120,135,160,.3)',
+      soundJustify: st.sound ? 'flex-end' : 'flex-start',
+      showTiming: st.showTiming,
+      timingLabel: st.showTiming ? 'Hide timing' : 'Timing editor',
+      estLabel: 'about ' + (mm ? mm + 'm ' : '') + ss + 's long',
+      exporting: st.exporting,
+      exportPct: st.exportPct + '%',
+      exportStatus: st.exportStatus,
+      exportLabel: st.exporting ? 'Rendering…' : 'Export MP4 · 1080 × 1920',
+      shareLabel: st.saveStatus === 'Saved to server' ? 'Copy share link' : 'Save & share project',
+      rangeStart: st.rangeStart,
+      rangeEnd: st.rangeEnd,
+      rangeMin: st.messages.length ? this.dateInput(st.messages[0].ts) : '',
+      rangeMax: st.messages.length ? this.dateInput(st.messages[st.messages.length - 1].ts) : '',
+      rangeLabel: active.length === st.messages.length ? 'Using the full chat history' : active.length + ' of ' + st.messages.length + ' messages selected',
+
+      bodyRef: el => { this._body = el; },
+      canvasRef: el => { this._canvasHost = el; },
+
+      onChatFile: e => {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        const r = new FileReader();
+        r.onload = ev => this.load(String(ev.target.result), f.name);
+        r.readAsText(f);
+      },
+      onRangeStart: e => {
+        const value = e.target.value;
+        this.stopRequested = true;
+        this.setState({ rangeStart: value, items: [], idx: 0, playing: false, typing: false });
+      },
+      onRangeEnd: e => {
+        const value = e.target.value;
+        this.stopRequested = true;
+        this.setState({ rangeEnd: value, items: [], idx: 0, playing: false, typing: false });
+      },
+      onMeChange: e => { this.reset(); this.setState({ meName: e.target.value }); },
+      onSpeedSlider: e => this.setState({ speedMode: 'fixed', fixedSeconds: parseFloat(e.target.value) }),
+      onToggleSound: () => this.setState({ sound: !st.sound }),
+      onToggleTiming: () => this.setState({ showTiming: !st.showTiming }),
+      onResetTimings: () => this.setState({ timings: {} }),
+      onAvatarFile: e => {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        const url = URL.createObjectURL(f);
+        const img = new Image(); img.onload = () => this.forceUpdate(); img.src = url;
+        this._avatarImg = img;
+        this.setState({ avatarUrl: url });
+      },
+      onWallFile: e => {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        const url = URL.createObjectURL(f);
+        const img = new Image(); img.onload = () => this.forceUpdate(); img.src = url;
+        this._wallImg = img;
+        this.setState({ wallUrl: url });
+      },
+      onMusicFile: async e => {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        const buf = await f.arrayBuffer();
+        try {
+          this._musicBuf = await this.ctx().decodeAudioData(buf);
+          this.setState({ musicName: f.name });
+        } catch (err) {
+          this.setState({ exportStatus: 'Could not decode that audio file' });
+        }
+      },
+      onClearAssets: () => {
+        this._avatarImg = null; this._wallImg = null; this._musicBuf = null;
+        this.setState({ avatarUrl: null, wallUrl: null, musicName: null });
+      },
+      onShare: async () => {
+        const body = this.projectPayload();
+        await this.saveProject(body, JSON.stringify(body));
+        const url = location.origin + location.pathname + '?project=' + encodeURIComponent(this.state.projectId);
+        try {
+          await navigator.clipboard.writeText(url);
+          this.setState({ saveStatus: 'Share link copied' });
+        } catch (err) {
+          window.prompt('Copy this share link', url);
+        }
+      },
+      onPlay: () => {
+        this.ctx();
+        const activeMessages = this.activeMessages();
+        if (!activeMessages.length) return;
+        if (st.playing) { this.setState({ playing: false }); return; }
+        const fresh = st.idx >= activeMessages.length;
+        if (fresh) this.setState({ items: [], idx: 0 });
+        this.setState({ playing: true }, () => { if (!this._running || fresh || st.idx === 0) { this._running = true; this.loop().then(() => { this._running = false; }); } });
+      },
+      onRestart: () => {
+        this.reset();
+        setTimeout(() => {
+          this.setState({ playing: true }, () => { this._running = true; this.loop().then(() => { this._running = false; }); });
+        }, 60);
+      },
+      onShowAll: () => {
+        this.stopRequested = true;
+        this.showAllActive();
+      },
+      onExport: () => this.exportVideo(),
+      onCancelExport: () => { this._cancelExport = true; this.setState({ exportStatus: 'Finishing up…' }); }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
