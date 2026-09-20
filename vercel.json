@@ -1,5 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/", "destination": "/Chat%20Replay%20Studio.dc.html" }
-  ]
-}
